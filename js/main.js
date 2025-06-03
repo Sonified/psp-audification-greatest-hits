@@ -5,8 +5,8 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("Current version: 2025_06_03_v1.02");
-    console.log("Commit message: v1.02: Fix: Force non-emoji rendering for pause symbol.");
+    console.log("Current version: 2025_06_03_v1.03");
+    console.log("Commit message: v1.03: Add QR code image to repository.");
 
     const exampleSections = document.querySelectorAll('.audio-example-section');
     let currentlyPlayingSection = null;
