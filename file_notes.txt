@@ -1,0 +1,25 @@
+Here is a brief description of each (all are ion-scale waves from magnetometer unless otherwise specified):
+
+E8_gr8_CME --> A small CME from E8 (where you can hear the fun waves before and after, it sounds like an airplane)
+
+E8_gr8_HCS --> Upstream the E8 HCS crossing (very soothing)
+
+E11_HCS --> E11 HCS Crossing: Upstream waves, into HCS, and downstream waves. This video is also annotated with descriptions and does a slowed down replay of certain features at the end.
+
+E13_CME_WISPR_Original --> This is the original video from youtube featuring the E13 cme timed with WISPR visuals
+
+E13_CME_WISPR_electricfield --> This is the same as above, except it is the electric field (dfb_dbm_vac data). It is wild to hear that "roar" sound at the end not present in the original, due to all the higher frequency wave power!
+
+E13_hcs--> E13 hcs crossing (cme-influenced) with vdfs and data as visual. I know this is too technical for outreach, but the haunting silence as we cross to the other side is crazy. We can provide just the audio for this one if desired.
+
+E15_CME_SHOCK --> This is the big E15 CME with a very very loud and extreme shock sound. Definitely turn the volume down for this one. It is also in Stereo (BT left, BN right) if you have good headphones.
+
+E16_rising_tones -- Highly whimsical waves with intermittent increases in frequency.
+
+Venus_Flyby4 -> Venus Flyby 4, where the sound of PSP crashing into the Venusian ionosphere is a very audible "bloop" and then the outbound mystery waves are very intense. Note the similarity to the E8 cme!
+
+Here is also the sonification video that Robert made for the NASA Heliophysics outreach booth at AGU: https://www.youtube.com/watch?v=lCKhQCAWOeE
+
+There are plenty more interesting ones we can add, but here is a start. If you would like another example of using 2 inputs as stereo, we do have more if you think the E15 shock is too loud. 
+
+Use: E13 cme (mag), Venus flyby (mag) , and the e16 rising tones.

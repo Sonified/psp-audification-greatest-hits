@@ -1,0 +1,380 @@
+/* Base Styles */
+:root {
+    --blue-light: #dbeafe;
+    --blue-mid: #3b82f6;
+    --blue-dark: #1d4ed8;
+    --blue-section-bg: #2a3b4d;
+    --blue-section-bg-rgba: rgba(42, 59, 77, 0.5);
+    --blue-mid-rgba: rgba(59, 130, 246, 0.5);
+    
+    --purple-light: #e9d5ff;
+    --purple-mid: #a855f7;
+    --purple-dark: #7e22ce;
+    --purple-section-bg: #3a2a4d;
+    --purple-section-bg-rgba: rgba(58, 42, 77, 0.5);
+    --purple-mid-rgba: rgba(168, 85, 247, 0.5);
+    
+    --teal-light: #ccfbf1;
+    --teal-mid: #14b8a6;
+    --teal-dark: #0f766e;
+    --teal-section-bg: #2a4d4b;
+    --teal-section-bg-rgba: rgba(42, 77, 75, 0.5);
+    --teal-mid-rgba: rgba(20, 184, 166, 0.5);
+    
+    --amber-light: #fef3c7;
+    --amber-mid: #f59e0b;
+    --amber-dark: #b45309;
+    --amber-section-bg: #4d422a;
+    --amber-section-bg-rgba: rgba(77, 66, 42, 0.5);
+    --amber-mid-rgba: rgba(245, 158, 11, 0.5);
+    
+    --gray-light: #f1f5f9;
+    --gray-mid: #64748b;
+    --gray-dark: #1e293b;
+
+    --text-light: #e0e0e0;
+    --text-dark: #121212;
+    --bg-dark: #121212;
+    --bg-section-darker: #1f1f1f;
+    --bg-canvas-dark: #101010;
+}
+
+#starfield-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Ensure it's behind other content */
+    background-color: var(--bg-dark); /* Fallback if canvas doesn't draw immediately */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    line-height: 1.6;
+    color: var(--text-light);
+    background-color: var(--bg-dark);
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+header, section, footer {
+    margin-bottom: 40px;
+}
+
+h1 {
+    font-size: 2.6em;
+    margin-bottom: 2px;
+    text-align: center;
+    color: #ffffff;
+}
+
+h2 {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    color: var(--text-light);
+}
+
+.tagline {
+    text-align: center;
+    font-size: 1.2em;
+    color: #e0e0e0;
+    font-style: italic;
+    margin-bottom: 20px;
+}
+
+p {
+    margin-bottom: 15px;
+    color: var(--text-light);
+}
+
+.intro {
+    background-color: var(--bg-section-darker);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+/* Wave Doctor Example Sections */
+.audio-example-section {
+    border-radius: 8px;
+    border: 2px solid;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+/* Color Themes for Examples */
+.audio-example-section[data-color="blue"] {
+    border-color: var(--blue-mid);
+    background-image: linear-gradient(to top right, var(--blue-section-bg), var(--blue-mid));
+}
+
+.audio-example-section[data-color="purple"] {
+    border-color: var(--purple-mid);
+    background-image: linear-gradient(to top right, var(--purple-section-bg), var(--purple-mid));
+}
+
+.audio-example-section[data-color="teal"] {
+    border-color: var(--teal-mid);
+    background-image: linear-gradient(to top right, var(--teal-section-bg), var(--teal-mid));
+}
+
+.audio-example-section[data-color="amber"] {
+    border-color: var(--amber-mid);
+    background-image: linear-gradient(to top right, var(--amber-section-bg), var(--amber-mid));
+}
+
+.audio-example-section[data-color="blue"] .play-button {
+    background-image: linear-gradient(to top right, var(--blue-dark), var(--blue-mid));
+}
+
+.audio-example-section[data-color="purple"] .play-button {
+    background-image: linear-gradient(to top right, var(--purple-dark), var(--purple-mid));
+}
+
+.audio-example-section[data-color="teal"] .play-button {
+    background-image: linear-gradient(to top right, var(--teal-dark), var(--teal-mid));
+}
+
+.audio-example-section[data-color="amber"] .play-button {
+    background-image: linear-gradient(to top right, var(--amber-dark), var(--amber-mid));
+}
+
+/* Formula Display */
+.formula {
+    background-color: #f1f5f9;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    overflow-x: auto;
+}
+
+.formula code {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+}
+
+/* Example Toggles (New) */
+.example-toggles {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.drum-example-btn {
+    padding: 8px 16px;
+    font-weight: 500;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: var(--gray-light);
+    color: var(--gray-dark);
+    border: 1px solid var(--gray-mid);
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    font-size: 14px; /* Explicitly setting for consistency */
+}
+
+.drum-example-btn:hover:not(.active) {
+    background-color: #e2e8f0; /* Slightly darker gray on hover */
+}
+
+/* Active state for drum example buttons within the purple-themed section */
+.audio-example-section[data-color="purple"] .drum-example-btn.active {
+    background-color: var(--purple-dark);
+    color: white;
+    border-color: var(--purple-dark);
+}
+
+/* Waveform Display */
+.waveform-container {
+    position: relative;
+    width: 100%;
+    height: 120px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    overflow: hidden;
+    background-color: transparent;
+}
+
+.waveform-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(16, 16, 16, 0.5);
+}
+
+.waveform-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: opacity 0.3s ease;
+}
+
+.waveform-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.loading-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.loading-spinner {
+    width: 30px;
+    height: 30px;
+    border: 3px solid rgba(200, 200, 200, 0.2);
+    border-radius: 50%;
+    border-top-color: #ccc;
+    animation: spin 1s ease-in-out infinite;
+    margin-bottom: 10px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Controls */
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.play-button {
+    padding: 10px 24px;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 1.5em;
+    min-width: 50px;
+    height: 50px;
+    width: 85px; /* Fixed width for the button */
+    text-align: center;
+    transition: background-color 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.play-button .play-symbol,
+.play-button .pause-symbol {
+    display: inline-block;
+    vertical-align: middle; /* Helps if line-heights differ */
+}
+
+.play-button .pause-symbol {
+    font-size: 1.3em; /* Approx 30% larger than play symbol (1em * 1.3) relative to button's 1.5em base */
+}
+
+.play-button:hover:not(:disabled) {
+    opacity: 0.9;
+}
+
+.play-button:disabled {
+    background-color: #4a5568;
+    cursor: not-allowed;
+}
+
+.toggle-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
+
+/* Switch Toggle */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 24px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #cbd5e1;
+    transition: .4s;
+    border-radius: 24px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+.time-display {
+    margin-left: auto;
+    font-size: 14px;
+    color: #cccccc;
+    font-family: monospace;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    color: #a0a0a0;
+    border-top: 1px solid #333333;
+    padding-top: 20px;
+    font-size: 14px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+    
+    .controls {
+        flex-wrap: wrap;
+    }
+    
+    .toggle-container {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        margin-top: 10px;
+    }
+    
+    .time-display {
+        order: 2;
+    }
+}

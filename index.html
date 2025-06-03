@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parker Solar Probe's Greatest Hits - Space Sound Showcase</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <canvas id="starfield-canvas"></canvas>
+    <div class="container">
+        <header>
+            <h1>Parker Solar Probe's Greatest Hits</h1>
+            <p class="tagline">Experience the sounds of space captured by NASA's Parker Solar Probe</p>
+        </header>
+
+        <!-- E13 CME -->
+        <section class="audio-example-section" 
+                 data-audio-basename="PSP_Audification_2022_09_05_CME_Video_Sync_v1.4_PRE_POST_WAVES"
+                 data-color="blue">
+            <h2>Encounter 13: Coronal Mass Ejection</h2>
+            <p>
+                Listen to a Coronal Mass Ejection (CME) event recorded during Parker Solar Probe's 13th encounter with the Sun.
+            </p>
+            <div class="waveform-container">
+                <canvas class="waveform-canvas"></canvas>
+                <div class="waveform-overlay">
+                    <div class="loading-indicator">
+                        <div class="loading-spinner"></div>
+                        <span>Loading audio...</span>
+                    </div>
+                </div>
+            </div>
+            <div class="controls">
+                <button class="play-button"><span class="play-symbol">▶</span></button>
+                <div class="time-display">0:00 / 0:00</div>
+            </div>
+        </section>
+
+        <!-- E16 Rising Tones -->
+        <section class="audio-example-section" 
+                 data-audio-basename="E16_Risers_Stereo_2023_06_21_2321_to_2336_PSP_Mag_Bt_L_Bn_R"
+                 data-color="purple">
+            <h2>Encounter 16: Rising Tones</h2>
+            <p>
+                Highly whimsical waves with intermittent increases in frequency, captured during Encounter 16.
+            </p>
+            <div class="waveform-container">
+                <canvas class="waveform-canvas"></canvas>
+                <div class="waveform-overlay">
+                    <div class="loading-indicator">
+                        <div class="loading-spinner"></div>
+                        <span>Loading audio...</span>
+                    </div>
+                </div>
+            </div>
+            <div class="controls">
+                <button class="play-button"><span class="play-symbol">▶</span></button>
+                <div class="time-display">0:00 / 0:00</div>
+            </div>
+        </section>
+
+        <!-- Venus Flyby 4 -->
+        <section class="audio-example-section" 
+                 data-audio-basename="Venus_Flyby4_2021_02_20_1955_to_2040_Mag_Bn_Cleaned_Shortened"
+                 data-color="teal">
+            <h2>PSP Encounters Venus</h2>
+            <p>
+                Hear the sound of PSP passing through the Venusian ionosphere during its 4th flyby of Venus. An audible "bloop" marks the entry, followed by intense outbound mystery waves.
+            </p>
+            <div class="waveform-container">
+                <canvas class="waveform-canvas"></canvas>
+                <div class="waveform-overlay">
+                    <div class="loading-indicator">
+                        <div class="loading-spinner"></div>
+                        <span>Loading audio...</span>
+                    </div>
+                </div>
+            </div>
+            <div class="controls">
+                <button class="play-button"><span class="play-symbol">▶</span></button>
+                <div class="time-display">0:00 / 0:00</div>
+            </div>
+        </section>
+
+        <footer>
+            <p>To experience more NASA audio and visuals, watch <a href="https://www.youtube.com/watch?v=j9A2MTB9gl0" target="_blank">Listen To SPACE!</a> on the NASA Video youtube page.</p>
+        </footer>
+    </div>
+
+    <script src="js/audio.js"></script>
+    <script src="js/visualizer.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/starfield.js"></script>
+</body>
+</html>
