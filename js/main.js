@@ -5,8 +5,8 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("Current version: 2025_06_03_v1.01");
-    console.log("Commit message: v1.01: Feature and UI enhancements - Implemented parallax starfield, refined visual styles, and improved audio playback controls.");
+    console.log("Current version: 2025_06_03_v1.02");
+    console.log("Commit message: v1.02: Fix: Force non-emoji rendering for pause symbol.");
 
     const exampleSections = document.querySelectorAll('.audio-example-section');
     let currentlyPlayingSection = null;
@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                         player.audioManager.startPlayback();
                         player.isPlaying = true;
-                        playButton.innerHTML = '<span class="pause-symbol">⏸</span>';
+                        playButton.innerHTML = '<span class="pause-symbol">⏸︎</span>';
                         startWaveformAnimation(player);
                         currentlyPlayingSection = player;
                     }
@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 player.audioManager.startPlayback();
                 player.isPlaying = true;
-                playButton.innerHTML = '<span class="pause-symbol">⏸</span>';
+                playButton.innerHTML = '<span class="pause-symbol">⏸︎</span>';
                 startWaveformAnimation(player); 
                 currentlyPlayingSection = player; 
             }
