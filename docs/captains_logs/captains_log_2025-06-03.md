@@ -212,4 +212,12 @@ Today's progress:
 *   **Version:** `2025_06_03_v1.03`
 *   **Commit Message:** `v1.03: Add QR code image to repository.`
 *   **Details:** Added `qr_code_psp_audification_greatest_hits.png` to the repository root.
+*   The version and commit message have been updated in the console log in `js/main.js`.
+*   **Commit Hash:** `ea70b69`
+
+## Push to GitHub - 2025-06-03 (Audio Test Page)
+
+*   **Version:** `2025_06_03_v1.04`
+*   **Commit Message:** `v1.04: Add audio test page and silent MP3 for mobile audio unlock.`
+*   **Details:** Added `audio_test_page.html` and `audio/silent.mp3` (generated 0.1s silent MP3 for unlock technique).
 *   The version and commit message have been updated in the console log in `js/main.js`. 

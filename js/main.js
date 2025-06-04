@@ -5,8 +5,11 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("Current version: 2025_06_03_v1.03");
-    console.log("Commit message: v1.03: Add QR code image to repository.");
+    console.log("Current version: 2025_06_03_v1.04");
+    console.log("Commit message: v1.04: Add audio test page and silent MP3 for mobile audio unlock.");
+
+    let isAudioUnlocked = false;
+    const silentUnlockAudio = document.getElementById('silent-unlock-audio');
 
     const exampleSections = document.querySelectorAll('.audio-example-section');
     let currentlyPlayingSection = null;
@@ -100,6 +103,11 @@ document.addEventListener('DOMContentLoaded', () => {
         loadAndSetupAudio(audioBasename);
 
         playButton.addEventListener('click', () => {
+            if (!isAudioUnlocked && silentUnlockAudio) {
+                silentUnlockAudio.play().catch(e => console.warn("Silent unlock play failed (this is often ok on desktop):", e));
+                isAudioUnlocked = true;
+            }
+
             if (player.isPlaying) {
                 player.audioManager.stopPlayback(false); 
                 player.isPlaying = false;
@@ -132,6 +140,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         
         waveformCanvas.addEventListener('click', (event) => {
+            if (!isAudioUnlocked && silentUnlockAudio) {
+                silentUnlockAudio.play().catch(e => console.warn("Silent unlock play failed (this is often ok on desktop):", e));
+                isAudioUnlocked = true;
+            }
+
             if (!player.isLoaded) return;
             const rect = waveformCanvas.getBoundingClientRect();
             const clickX = event.clientX - rect.left;

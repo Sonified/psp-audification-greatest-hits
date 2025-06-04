@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Audio Test - Parker Solar Probe</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: white;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #4ade80;
+        }
+        
+        .device-info {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        
+        .test-section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .test-section h2 {
+            color: #60a5fa;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        .test-section p {
+            margin-bottom: 15px;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        button {
+            background: linear-gradient(45deg, #3b82f6, #1d4ed8);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+        
+        button:disabled {
+            background: #374151;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .status {
+            font-size: 12px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        
+        .status.success { background: rgba(34, 197, 94, 0.2); color: #4ade80; }
+        .status.error { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+        .status.loading { background: rgba(251, 191, 36, 0.2); color: #fbbf24; }
+        
+        .volume-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        input[type="range"] {
+            flex: 1;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            outline: none;
+        }
+        
+        .instructions {
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .instructions h3 {
+            color: #fbbf24;
+            margin-bottom: 10px;
+        }
+        
+        .results {
+            margin-top: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        
+        audio {
+            width: 100%;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔊 Mobile Audio Test</h1>
+        <p style="text-align: center; margin-bottom: 20px; opacity: 0.8;">
+            Test different audio playback methods for mobile compatibility
+        </p>
+        
+        <div class="device-info">
+            <strong>📱 Device Info:</strong>
+            <div id="device-details">Detecting...</div>
+        </div>
+        
+        <div class="instructions">
+            <h3>🧪 Testing Instructions</h3>
+            <ol>
+                <li><strong>Choose an audio file below</strong></li>
+                <li><strong>Test with ringer ON first</strong> - all methods should work</li>
+                <li><strong>Put phone in silent mode</strong> (but keep media volume up)</li>
+                <li><strong>Test each method below</strong> - note which ones work</li>
+                <li><strong>Try with headphones vs speakers</strong></li>
+                <li><strong>Check results section</strong> for automatic compatibility detection</li>
+            </ol>
+        </div>
+        
+        <div class="test-section">
+            <h2>🎯 Select Audio File</h2>
+            <select id="audio-file-select" onchange="updateAudioFiles()" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.3); padding: 8px; border-radius: 5px; width: 100%;">
+                <option value="PSP_Audification_2022_09_05_CME_Video_Sync_v1.4_PRE_POST_WAVES">Encounter 13: Coronal Mass Ejection</option>
+                <option value="E16_Risers_Stereo_2023_06_21_2321_to_2336_PSP_Mag_Bt_L_Bn_R">Encounter 16: Rising Tones</option>
+                <option value="Venus_Flyby4_2021_02_20_1955_to_2040_Mag_Bn_Cleaned_Shortened">Venus Flyby 4</option>
+            </select>
+        </div>
+        
+        <!-- Method 1: Pure HTML5 Audio -->
+        <div class="test-section">
+            <h2>🎵 Method 1: Pure HTML5 Audio</h2>
+            <p>Standard HTML5 &lt;audio&gt; element - most compatible with media controls</p>
+            
+            <div class="controls">
+                <button onclick="testHTML5Audio()">Test HTML5 Audio</button>
+                <span id="html5-status" class="status">Ready</span>
+            </div>
+            
+            <audio id="html5-audio" controls>
+                <source id="html5-audio-source" src="audio/PSP_Audification_2022_09_05_CME_Video_Sync_v1.4_PRE_POST_WAVES.mp3" type="audio/mpeg">
+                Your browser does not support audio.
+            </audio>
+        </div>
+        
+        <!-- Method 2: Web Audio API -->
+        <div class="test-section">
+            <h2>🎛️ Method 2: Web Audio API (Current)</h2>
+            <p>Your current approach - precise control but mobile restrictions</p>
+            
+            <div class="controls">
+                <button onclick="testWebAudio()">Test Web Audio</button>
+                <span id="webaudio-status" class="status">Ready</span>
+            </div>
+            
+            <div class="volume-controls">
+                <label>Volume:</label>
+                <input type="range" id="webaudio-volume" min="0" max="1" step="0.1" value="0.7">
+                <span id="webaudio-volume-display">70%</span>
+            </div>
+        </div>
+        
+        <!-- Method 3: Silent Unlock + Web Audio -->
+        <div class="test-section">
+            <h2>🤫 Method 3: Silent Unlock + Web Audio</h2>
+            <p>The "hacky" approach - plays silent audio first to unlock Web Audio</p>
+            
+            <div class="controls">
+                <button onclick="testSilentUnlock()">Test Silent Unlock</button>
+                <span id="silent-status" class="status">Ready</span>
+            </div>
+        </div>
+        
+        <!-- Method 4: Hybrid Approach -->
+        <div class="test-section">
+            <h2>🔄 Method 4: Hybrid (HTML5 + Web Audio Analysis)</h2>
+            <p>HTML5 playback with Web Audio analysis - best of both worlds</p>
+            
+            <div class="controls">
+                <button onclick="testHybrid()">Test Hybrid</button>
+                <span id="hybrid-status" class="status">Ready</span>
+            </div>
+        </div>
+        
+        <!-- Method 5: MediaSession API -->
+        <div class="test-section">
+            <h2>📻 Method 5: HTML5 + MediaSession API</h2>
+            <p>HTML5 with MediaSession for better native integration</p>
+            
+            <div class="controls">
+                <button onclick="testMediaSession()">Test MediaSession</button>
+                <span id="mediasession-status" class="status">Ready</span>
+            </div>
+        </div>
+        
+        <div class="results">
+            <h3>📊 Test Results</h3>
+            <div id="results-list">
+                <p style="opacity: 0.7;">Run tests to see results...</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Silent audio file for unlock test -->
+    <audio id="silent-audio" src="audio/silent.mp3" preload="auto" style="display:none;"></audio>
+    
+    <script>
+        // Device detection
+        function detectDevice() {
+            const details = {
+                userAgent: navigator.userAgent,
+                platform: navigator.platform,
+                language: navigator.language,
+                cookieEnabled: navigator.cookieEnabled,
+                onLine: navigator.onLine,
+                screen: `${screen.width}x${screen.height}`,
+                devicePixelRatio: window.devicePixelRatio,
+                touchSupport: 'ontouchstart' in window,
+                audioContext: !!(window.AudioContext || window.webkitAudioContext),
+                mediaSession: 'mediaSession' in navigator
+            };
+            
+            const deviceInfo = document.getElementById('device-details');
+            deviceInfo.innerHTML = `
+                <div><strong>Browser:</strong> ${getBrowserName()} on ${getOSName()}</div>
+                <div><strong>Screen:</strong> ${details.screen} (${details.devicePixelRatio}x DPR)</div>
+                <div><strong>Touch:</strong> ${details.touchSupport ? 'Yes' : 'No'}</div>
+                <div><strong>Audio Context:</strong> ${details.audioContext ? 'Yes' : 'No'}</div>
+                <div><strong>MediaSession:</strong> ${details.mediaSession ? 'Yes' : 'No'}</div>
+            `;
+        }
+        
+        function getBrowserName() {
+            const ua = navigator.userAgent;
+            if (ua.includes('Chrome')) return 'Chrome';
+            if (ua.includes('Firefox')) return 'Firefox';
+            if (ua.includes('Safari')) return 'Safari';
+            if (ua.includes('Edge')) return 'Edge';
+            return 'Unknown';
+        }
+        
+        function getOSName() {
+            const ua = navigator.userAgent;
+            if (ua.includes('iPhone') || ua.includes('iPad')) return 'iOS';
+            if (ua.includes('Android')) return 'Android';
+            if (ua.includes('Mac')) return 'macOS';
+            if (ua.includes('Windows')) return 'Windows';
+            return 'Unknown';
+        }
+        
+        // Global audio context for Web Audio tests
+        let audioContext;
+        let testResults = {};
+        
+        // Get currently selected audio file
+        function getCurrentAudioFile() {
+            const select = document.getElementById('audio-file-select');
+            return `audio/${select.value}.mp3`;
+        }
+        
+        // Update audio files when selection changes
+        function updateAudioFiles() {
+            const audioPath = getCurrentAudioFile();
+            const html5Audio = document.getElementById('html5-audio');
+            const html5Source = document.getElementById('html5-audio-source');
+            
+            // Update HTML5 audio source
+            html5Source.src = audioPath;
+            html5Audio.load(); // Reload the audio element
+            
+            // Clear previous test results since we're testing a new file
+            testResults = {};
+            updateResultsDisplay();
+            
+            // Reset all status displays
+            document.getElementById('html5-status').textContent = 'Ready';
+            document.getElementById('html5-status').className = 'status';
+            document.getElementById('webaudio-status').textContent = 'Ready';
+            document.getElementById('webaudio-status').className = 'status';
+            document.getElementById('silent-status').textContent = 'Ready';
+            document.getElementById('silent-status').className = 'status';
+            document.getElementById('hybrid-status').textContent = 'Ready';
+            document.getElementById('hybrid-status').className = 'status';
+            document.getElementById('mediasession-status').textContent = 'Ready';
+            document.getElementById('mediasession-status').className = 'status';
+        }
+        
+        // Initialize audio context
+        function initAudioContext() {
+            if (!audioContext) {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (AudioContext) {
+                    audioContext = new AudioContext();
+                }
+            }
+            return audioContext;
+        }
+        
+        // Test 1: HTML5 Audio
+        function testHTML5Audio() {
+            const audio = document.getElementById('html5-audio');
+            const status = document.getElementById('html5-status');
+            
+            status.textContent = 'Testing...';
+            status.className = 'status loading';
+            
+            audio.currentTime = 0;
+            const playPromise = audio.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    status.textContent = 'Playing ✓';
+                    status.className = 'status success';
+                    recordResult('HTML5 Audio', 'success', 'Played successfully');
+                    
+                    setTimeout(() => {
+                        audio.pause();
+                        status.textContent = 'Success';
+                    }, 2000);
+                }).catch(error => {
+                    status.textContent = 'Failed ✗';
+                    status.className = 'status error';
+                    recordResult('HTML5 Audio', 'error', error.message);
+                });
+            }
+        }
+        
+        // Test 2: Web Audio API
+        function testWebAudio() {
+            const status = document.getElementById('webaudio-status');
+            const volumeSlider = document.getElementById('webaudio-volume');
+            
+            status.textContent = 'Loading...';
+            status.className = 'status loading';
+            
+            const ctx = initAudioContext();
+            if (!ctx) {
+                status.textContent = 'Not supported ✗';
+                status.className = 'status error';
+                recordResult('Web Audio API', 'error', 'AudioContext not supported');
+                return;
+            }
+            
+            // Resume context if suspended
+            if (ctx.state === 'suspended') {
+                ctx.resume();
+            }
+            
+            fetch(getCurrentAudioFile())
+                .then(response => response.arrayBuffer())
+                .then(data => ctx.decodeAudioData(data))
+                .then(buffer => {
+                    const source = ctx.createBufferSource();
+                    const gainNode = ctx.createGain();
+                    
+                    source.buffer = buffer;
+                    gainNode.gain.value = parseFloat(volumeSlider.value);
+                    
+                    source.connect(gainNode);
+                    gainNode.connect(ctx.destination);
+                    
+                    source.start(0);
+                    
+                    status.textContent = 'Playing ✓';
+                    status.className = 'status success';
+                    recordResult('Web Audio API', 'success', 'Played successfully');
+                    
+                    setTimeout(() => {
+                        source.stop();
+                        status.textContent = 'Success';
+                    }, 2000);
+                })
+                .catch(error => {
+                    status.textContent = 'Failed ✗';
+                    status.className = 'status error';
+                    recordResult('Web Audio API', 'error', error.message);
+                });
+        }
+        
+        // Test 3: Silent unlock method
+        function testSilentUnlock() {
+            const status = document.getElementById('silent-status');
+            const silentAudio = document.getElementById('silent-audio');
+            
+            status.textContent = 'Unlocking...';
+            status.className = 'status loading';
+            
+            // Play silent audio first
+            silentAudio.play().then(() => {
+                status.textContent = 'Unlocked, testing...';
+                
+                // Now try Web Audio
+                setTimeout(() => {
+                    testWebAudioAfterUnlock(status);
+                }, 100);
+            }).catch(error => {
+                status.textContent = 'Unlock failed ✗';
+                status.className = 'status error';
+                recordResult('Silent Unlock', 'error', 'Silent audio failed: ' + error.message);
+            });
+        }
+        
+        function testWebAudioAfterUnlock(status) {
+            const ctx = initAudioContext();
+            
+            fetch(getCurrentAudioFile())
+                .then(response => response.arrayBuffer())
+                .then(data => ctx.decodeAudioData(data))
+                .then(buffer => {
+                    const source = ctx.createBufferSource();
+                    source.buffer = buffer;
+                    source.connect(ctx.destination);
+                    source.start(0);
+                    
+                    status.textContent = 'Playing ✓';
+                    status.className = 'status success';
+                    recordResult('Silent Unlock', 'success', 'Played after silent unlock');
+                    
+                    setTimeout(() => {
+                        source.stop();
+                        status.textContent = 'Success';
+                    }, 2000);
+                })
+                .catch(error => {
+                    status.textContent = 'Failed ✗';
+                    status.className = 'status error';
+                    recordResult('Silent Unlock', 'error', error.message);
+                });
+        }
+        
+        // Test 4: Hybrid approach
+        function testHybrid() {
+            const status = document.getElementById('hybrid-status');
+            
+            status.textContent = 'Testing...';
+            status.className = 'status loading';
+            
+            const audio = new Audio(getCurrentAudioFile());
+            
+            const playPromise = audio.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    status.textContent = 'Playing ✓';
+                    status.className = 'status success';
+                    recordResult('Hybrid Approach', 'success', 'HTML5 playback successful');
+                    
+                    // Try to connect to Web Audio for analysis
+                    try {
+                        const ctx = initAudioContext();
+                        if (ctx) {
+                            const source = ctx.createMediaElementSource(audio);
+                            const analyser = ctx.createAnalyser();
+                            source.connect(analyser);
+                            analyser.connect(ctx.destination);
+                            recordResult('Hybrid Analysis', 'success', 'Web Audio analysis connected');
+                        }
+                    } catch (e) {
+                        recordResult('Hybrid Analysis', 'error', 'Web Audio analysis failed: ' + e.message);
+                    }
+                    
+                    setTimeout(() => {
+                        audio.pause();
+                        status.textContent = 'Success';
+                    }, 2000);
+                }).catch(error => {
+                    status.textContent = 'Failed ✗';
+                    status.className = 'status error';
+                    recordResult('Hybrid Approach', 'error', error.message);
+                });
+            }
+        }
+        
+        // Test 5: MediaSession API
+        function testMediaSession() {
+            const status = document.getElementById('mediasession-status');
+            
+            status.textContent = 'Testing...';
+            status.className = 'status loading';
+            
+            const audio = new Audio(getCurrentAudioFile());
+            
+            // Set up MediaSession if supported
+            if ('mediaSession' in navigator) {
+                navigator.mediaSession.metadata = new MediaMetadata({
+                    title: 'PSP Audio Test',
+                    artist: 'NASA Parker Solar Probe',
+                    album: 'Space Sounds'
+                });
+                
+                navigator.mediaSession.setActionHandler('play', () => audio.play());
+                navigator.mediaSession.setActionHandler('pause', () => audio.pause());
+            }
+            
+            const playPromise = audio.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    status.textContent = 'Playing ✓';
+                    status.className = 'status success';
+                    recordResult('MediaSession', 'success', 'Playing with MediaSession integration');
+                    
+                    setTimeout(() => {
+                        audio.pause();
+                        status.textContent = 'Success';
+                    }, 2000);
+                }).catch(error => {
+                    status.textContent = 'Failed ✗';
+                    status.className = 'status error';
+                    recordResult('MediaSession', 'error', error.message);
+                });
+            }
+        }
+        
+        // Record and display results
+        function recordResult(method, status, message) {
+            testResults[method] = { status, message, timestamp: new Date().toLocaleTimeString() };
+            updateResultsDisplay();
+        }
+        
+        function updateResultsDisplay() {
+            const resultsList = document.getElementById('results-list');
+            
+            if (Object.keys(testResults).length === 0) {
+                resultsList.innerHTML = '<p style="opacity: 0.7;">Run tests to see results...</p>';
+                return;
+            }
+            
+            resultsList.innerHTML = Object.entries(testResults).map(([method, result]) => `
+                <div class="result-item">
+                    <div>
+                        <strong>${method}</strong><br>
+                        <small style="opacity: 0.7;">${result.message}</small>
+                    </div>
+                    <div>
+                        <span class="status ${result.status}">${result.status === 'success' ? '✓' : '✗'}</span><br>
+                        <small style="opacity: 0.5;">${result.timestamp}</small>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Volume slider handling
+        document.getElementById('webaudio-volume').addEventListener('input', function() {
+            document.getElementById('webaudio-volume-display').textContent = Math.round(this.value * 100) + '%';
+        });
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            detectDevice();
+        });
+    </script>
+</body>
+</html>
