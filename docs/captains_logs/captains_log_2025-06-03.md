@@ -243,4 +243,15 @@ Today's progress:
 
 *   **Version:** `2025_06_03_v1.06`
 *   **Commit Message:** `v1.06: Fix audio looping and add volume control for tracks.`
-*   The version and commit message have been updated in the console log in `js/main.js`. 
+*   The version and commit message have been updated in the console log in `js/main.js`.
+*   **Commit Hash:** `1be4af2`
+
+## End of Session - 2025-06-03
+
+*   **README.md Created:** A `README.md` file was created for the project. It includes:
+    *   A project description.
+    *   A list of key features (audio examples, interactive players, waveform visualization, end-of-track handling, volume adjustment for the second track, audio fade transitions, animated starfield, kid-friendly descriptions, external NASA link).
+    *   Instructions on how to view the project.
+    *   An overview of the project structure.
+*   **Session Summary:** Resolved audio looping issue, implemented volume control for the second audio track (set to 70%), and pushed these changes (v1.06, hash `1be4af2`). Created the initial `README.md` file.
+*   **Captain's Log Closed for 2025-06-03.** 

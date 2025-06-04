@@ -13,6 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const maxZ = 10; // Increased from 5 for more parallax
     const baseStarSize = 2.0; // Base size for closest stars (z=1)
 
+    let verticalParallaxOffset = 0;
+    const parallaxFactor = 0.05; // Adjusted from 0.1 for half the effect
+
     function resizeCanvas() {
         const oldWidth = canvas.width;
         const oldHeight = canvas.height;
@@ -52,8 +55,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         draw() {
+            // Calculate parallax shift for this star based on its depth (z)
+            // Stars further away (larger z) should move less
+            const starParallaxShift = verticalParallaxOffset / this.z; 
+
             ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.arc(this.x, this.y + starParallaxShift, this.size, 0, Math.PI * 2);
             ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
             ctx.fill();
         }
@@ -91,7 +98,12 @@ document.addEventListener('DOMContentLoaded', () => {
         requestAnimationFrame(animate);
     }
 
+    function handleScroll() {
+        verticalParallaxOffset = -window.scrollY * parallaxFactor;
+    }
+
     window.addEventListener('resize', resizeCanvas);
+    window.addEventListener('scroll', handleScroll); // Add scroll listener
     resizeCanvas(); // Initial setup
     animate(); // Start animation
 }); 

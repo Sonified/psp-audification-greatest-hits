@@ -5,8 +5,8 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("Current version: 2025_06_03_v1.06");
-    console.log("Commit message: v1.06: Fix audio looping and add volume control for tracks.");
+    console.log("Current version: 2025_06_03_v1.07");
+    console.log("Commit message: v1.07: Implement depth-aware parallax scrolling for starfield background.");
 
     let isAudioUnlocked = false;
     const silentUnlockAudio = document.getElementById('silent-unlock-audio');
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Set volume for the second example (index 1)
         if (index === 1) {
-            player.audioManager.setMasterVolume(0.7);
+            player.audioManager.setMasterVolume(0.4);
             console.log('Volume for the second player (Encounter 16) set to 70%');
         }
 
