@@ -246,12 +246,39 @@ Today's progress:
 *   The version and commit message have been updated in the console log in `js/main.js`.
 *   **Commit Hash:** `1be4af2`
 
-## End of Session - 2025-06-03
+## Feature: Starfield Parallax Scrolling - 2025-06-03
 
-*   **README.md Created:** A `README.md` file was created for the project. It includes:
-    *   A project description.
-    *   A list of key features (audio examples, interactive players, waveform visualization, end-of-track handling, volume adjustment for the second track, audio fade transitions, animated starfield, kid-friendly descriptions, external NASA link).
-    *   Instructions on how to view the project.
-    *   An overview of the project structure.
-*   **Session Summary:** Resolved audio looping issue, implemented volume control for the second audio track (set to 70%), and pushed these changes (v1.06, hash `1be4af2`). Created the initial `README.md` file.
-*   **Captain's Log Closed for 2025-06-03.** 
+*   **Objective:** Enhance the visual depth of the page by making the starfield background parallax scroll in response to user scrolling.
+*   **Implementation Details (`js/starfield.js`):
+    *   Added a `verticalParallaxOffset` that updates on window `scroll` events.
+    *   The offset is calculated as `-window.scrollY * parallaxFactor`.
+    *   The `parallaxFactor` was initially `0.1` and later adjusted to `0.05` for a subtler effect.
+    *   Crucially, in the `Star.draw()` method, the `verticalParallaxOffset` is divided by `this.z` (the star's depth) before being applied to the star's `y` position: `y + (verticalParallaxOffset / this.z)`.
+    *   This ensures that closer stars (smaller `z`) parallax more significantly than distant stars (larger `z`), creating a realistic depth effect.
+
+## Push to GitHub - 2025-06-03
+
+*   **Version:** `2025_06_03_v1.07`
+*   **Commit Message:** `v1.07: Implement depth-aware parallax scrolling for starfield background.`
+*   The version and commit message have been updated in the console log in `js/main.js`.
+*   **Commit Hash:** `504732d`
+
+## UI: Waveform Playback Visualization Enhancement - 2025-06-03
+
+*   **Objective:** Provide clearer visual feedback on the waveform canvas during audio playback.
+*   **Implementation Details (`js/visualizer.js` - `drawWaveform` function):
+    *   Added a `hexToRgba` helper function to convert theme colors to `rgba` for opacity control.
+    *   **Played Portion (Left of Playhead):** A semi-transparent highlight overlay is applied. The color is based on `colorTheme.light`.
+        *   Initial `highlightAlpha` was `0.2`.
+        *   Iteratively adjusted to `0.1`, then `0.05`, then `0.02`, then `0.01`, then `0.005` for extreme subtlety, and finally settled on `0.03` after user feedback.
+    *   **Unplayed Portion (Right of Playhead):** The existing semi-transparent black overlay was made darker. Changed from `rgba(0, 0, 0, 0.2)` to `rgba(0, 0, 0, 0.4)`.
+    *   The playhead (vertical position line) is drawn on top of these overlays to ensure its visibility.
+*   **Bug Fix & Reversion (`js/main.js` - `handleAudioReachedEnd`):
+    *   An attempt to make the playhead reset perfectly to position 0 by calling `drawWaveform(... 0 ...)` instead of `drawStaticWaveform` in `handleAudioReachedEnd` introduced visual glitches when tracks ended or were switched.
+    *   This change was reverted. `handleAudioReachedEnd` now correctly calls `drawStaticWaveform` again to reset the view when audio finishes naturally.
+
+## Push to GitHub - 2025-06-03
+
+*   **Version:** `2025_06_03_v1.08`
+*   **Commit Message:** `v1.08: Enhance waveform visualization with playback progress overlays.`
+*   The version and commit message have been updated in the console log in `js/main.js`. 

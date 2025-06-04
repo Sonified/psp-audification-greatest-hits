@@ -5,8 +5,8 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("Current version: 2025_06_03_v1.07");
-    console.log("Commit message: v1.07: Implement depth-aware parallax scrolling for starfield background.");
+    console.log("Current version: 2025_06_03_v1.08");
+    console.log("Commit message: v1.08: Enhance waveform visualization with playback progress overlays.");
 
     let isAudioUnlocked = false;
     const silentUnlockAudio = document.getElementById('silent-unlock-audio');
@@ -232,7 +232,6 @@ function handleAudioReachedEnd(player) {
         player.animationId = null;
     }
     
-    // Reset display
     const duration = player.audioManager.getDuration();
     player.timeDisplay.textContent = `0:00 / ${formatTime(duration)}`;
     // It's important that drawStaticWaveform is available.
