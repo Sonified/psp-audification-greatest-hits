@@ -220,4 +220,27 @@ Today's progress:
 *   **Version:** `2025_06_03_v1.04`
 *   **Commit Message:** `v1.04: Add audio test page and silent MP3 for mobile audio unlock.`
 *   **Details:** Added `audio_test_page.html` and `audio/silent.mp3` (generated 0.1s silent MP3 for unlock technique).
+*   The version and commit message have been updated in the console log in `js/main.js`.
+*   **Commit Hash:** `6241c51`
+* Updated audio section descriptions in `index.html` with new kid-friendly wording based on user feedback.
+
+## Push to GitHub - 2025-06-03 (Venus Audio Update)
+
+*   **Version:** `2025_06_03_v1.05`
+*   **Commit Message:** `v1.05: Update Venus Flyby 4 audio - shortened for quicker fade-in.`
+*   **Details:** Updated the `audio/Venus_Flyby4_2021_02_20_1955_to_2040_Mag_Bn_Cleaned_Shortened.mp3` file.
+*   The version and commit message have been updated in the console log in `js/main.js`.
+
+## Audio Playback and Volume Adjustments - 2025-06-03
+
+*   **Prevented Audio Looping:** Modified `js/main.js` by implementing `handleAudioReachedEnd` and updating `startWaveformAnimation`. Audio tracks now stop and reset when they reach the end, instead of looping indefinitely. The animation also stops, and the UI (play button, time display) resets.
+*   **Volume Control for Second Track:**
+    *   Added a `setMasterVolume(level)` method to the `PSPAudioManager` class in `js/audio.js`. This allows setting a specific volume level (0.0 to 1.0) for an audio instance.
+    *   The `startPlayback` method in `js/audio.js` was updated to respect this `currentMasterVolume` when fading in audio.
+    *   In `js/main.js`, the volume for the second audio example ("Encounter 16: Rising Tones") was set to 70% (`player.audioManager.setMasterVolume(0.7)`).
+
+## Push to GitHub - 2025-06-03
+
+*   **Version:** `2025_06_03_v1.06`
+*   **Commit Message:** `v1.06: Fix audio looping and add volume control for tracks.`
 *   The version and commit message have been updated in the console log in `js/main.js`. 

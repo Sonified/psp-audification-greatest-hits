@@ -5,8 +5,8 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("Current version: 2025_06_03_v1.04");
-    console.log("Commit message: v1.04: Add audio test page and silent MP3 for mobile audio unlock.");
+    console.log("Current version: 2025_06_03_v1.06");
+    console.log("Commit message: v1.06: Fix audio looping and add volume control for tracks.");
 
     let isAudioUnlocked = false;
     const silentUnlockAudio = document.getElementById('silent-unlock-audio');
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentlyPlayingSection = null;
     const allPlayers = []; // Array to store all player instances
 
-    exampleSections.forEach((section) => {
+    exampleSections.forEach((section, index) => {
         const sectionAudioManager = new PSPAudioManager(); // Create a new audio manager for THIS section
 
         const playButton = section.querySelector('.play-button');
@@ -40,6 +40,12 @@ document.addEventListener('DOMContentLoaded', () => {
             colorTheme: getColorTheme(sectionColor),
         };
         allPlayers.push(player); // Add to list of all players
+
+        // Set volume for the second example (index 1)
+        if (index === 1) {
+            player.audioManager.setMasterVolume(0.7);
+            console.log('Volume for the second player (Encounter 16) set to 70%');
+        }
 
         function loadAndSetupAudio(currentAudioBasename, startPlaying = false) {
             player.isLoaded = false;
@@ -189,10 +195,20 @@ function startWaveformAnimation(player) {
     if (player.animationId) {
         cancelAnimationFrame(player.animationId);
     }
+    
     function animate() {
         if (!player.isPlaying) return;
+        
         const currentTime = player.audioManager.getCurrentTime();
         const duration = player.audioManager.getDuration();
+        
+        // SIMPLE END DETECTION - no complex state needed!
+        if (currentTime >= duration - 0.1) { // 100ms buffer for safety
+            console.log('Audio reached end naturally');
+            handleAudioReachedEnd(player);
+            return; // Stop animation
+        }
+        
         player.timeDisplay.textContent = `${formatTime(currentTime)} / ${formatTime(duration)}`;
         drawWaveform(
             player.waveformCanvas, 
@@ -203,6 +219,30 @@ function startWaveformAnimation(player) {
         player.animationId = requestAnimationFrame(animate);
     }
     animate();
+}
+
+function handleAudioReachedEnd(player) {
+    // Clean, simple end handling
+    player.audioManager.stopPlayback(true); // Reset position
+    player.isPlaying = false;
+    player.playButton.innerHTML = '<span class="play-symbol">▶</span>';
+    
+    if (player.animationId) {
+        cancelAnimationFrame(player.animationId);
+        player.animationId = null;
+    }
+    
+    // Reset display
+    const duration = player.audioManager.getDuration();
+    player.timeDisplay.textContent = `0:00 / ${formatTime(duration)}`;
+    // It's important that drawStaticWaveform is available.
+    // Assuming it's correctly defined in visualizer.js and visualizer.js is loaded.
+    drawStaticWaveform(player.waveformCanvas, player.colorTheme.mid); 
+    
+    // Clear currently playing
+    if (currentlyPlayingSection === player) {
+        currentlyPlayingSection = null;
+    }
 }
 
 /* This local definition is a duplicate of the one in js/visualizer.js and should be removed. */

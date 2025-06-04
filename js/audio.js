@@ -21,6 +21,7 @@ class PSPAudioManager {
         this.startTime = 0;
         this.pauseTime = 0;
         this.waveformDataArray = null;
+        this.currentMasterVolume = 1.0; // Default master volume
         
         if (this.audioContext) {
             this.setupAudioNodes();
@@ -71,6 +72,10 @@ class PSPAudioManager {
                 if (!success) throw new Error('Could not initialize audio context');
                 this.setupAudioNodes();
             }
+            // Ensure masterGain reflects currentMasterVolume if context was just initialized
+            if (this.masterGain) {
+                this.masterGain.gain.setValueAtTime(this.currentMasterVolume, this.audioContext.currentTime);
+            }
             
             const response = await fetch(audioUrl);
             if (!response.ok) {
@@ -117,10 +122,10 @@ class PSPAudioManager {
         const now = this.audioContext.currentTime;
         this.audioSource.start(now, offset);
 
-        // Fade in
-        this.masterGain.gain.cancelScheduledValues(now); // Cancel any previous ramps
-        this.masterGain.gain.setValueAtTime(this.masterGain.gain.value, now); // Hold current value (likely 0 if just started)
-        this.masterGain.gain.linearRampToValueAtTime(1, now + AUDIO_FADE_DURATION);
+        // Fade in to the currentMasterVolume
+        this.masterGain.gain.cancelScheduledValues(now); 
+        this.masterGain.gain.setValueAtTime(this.masterGain.gain.value, now); 
+        this.masterGain.gain.linearRampToValueAtTime(this.currentMasterVolume, now + AUDIO_FADE_DURATION);
 
         if (startOffset < 0) {
              this.startTime = this.audioContext.currentTime - offset;
@@ -201,5 +206,22 @@ class PSPAudioManager {
         if (!this.analyser || !this.waveformDataArray) return null;
         this.analyser.getByteTimeDomainData(this.waveformDataArray);
         return this.waveformDataArray;
+    }
+    
+    setMasterVolume(level) {
+        if (level < 0 || level > 1) {
+            console.warn("Master volume level must be between 0 and 1.");
+            return;
+        }
+        this.currentMasterVolume = level;
+        if (this.audioContext && this.masterGain) {
+            // If currently playing, ramp to the new volume. Otherwise, set it directly for next playback.
+            const now = this.audioContext.currentTime;
+            if (this.isPlaying) {
+                this.masterGain.gain.linearRampToValueAtTime(this.currentMasterVolume, now + AUDIO_FADE_DURATION);
+            } else {
+                this.masterGain.gain.setValueAtTime(this.currentMasterVolume, now);
+            }
+        }
     }
 }
